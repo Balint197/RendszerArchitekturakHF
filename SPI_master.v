@@ -64,7 +64,8 @@ wire clkdiv_reg_comm_rd = comm_en & (comm_addr[4:2] == 3'd1);
 //Órajel osztás (0 - 15. bitek).
 reg [15:0] clkdiv;
 
-always @(posedge clk)
+
+always @(posedge clk && ~CPOL && ~CPHA) // mode 0
 begin
    if (rst)
       clkdiv <= 16'd0;
@@ -72,6 +73,34 @@ begin
       if (clkdiv_reg_comm)
          clkdiv <= wr_data[15:0];
 end
+
+always @(negedge clk && ~CPOL && CPHA) // mode 1
+begin
+	if (rst)
+      clkdiv <= 16'd0;
+   else
+      if (clkdiv_reg_comm)
+         clkdiv <= wr_data[15:0];
+end
+
+always @(negedge clk && CPOL && ~CPHA) // mode 2
+begin
+   if (rst)
+      clkdiv <= 16'd0;
+   else
+      if (clkdiv_reg_comm)
+         clkdiv <= wr_data[15:0];
+end
+
+always @(posedge clk && CPOL && CPHA) // mode 3
+begin
+	if (rst)
+      clkdiv <= 16'd0;
+   else
+      if (clkdiv_reg_comm)
+         clkdiv <= wr_data[15:0];
+end
+
 
 //A regiszterbõl visszaolvasható érték.
 wire [31:0] clkdiv_reg_dout = {16'd0, clkdiv};
@@ -94,19 +123,17 @@ begin
    endcase
 end
 
-
-
-
-
-// Az állapotgép állapotai
-localparam IDLE        = 2'b00;
-localparam TRANSFER    = 2'b01;
-localparam CS_INACTIVE = 2'b10;
-
+always @(posedge i_Clk or negedge rst)
+begin
+	if (~rst)
+	begin
+		spi_MOSI     <= 1'b0;
+	end
+end
 
 
 //******************************************************************************
-//* SPI AMBA APB transzmitter.                                                                   *
+//* SPI AMBA APB transzmitter.                                                 *
 //******************************************************************************
 spi_transmitter spi_transmitter_i(
    //Órajel és reset.
