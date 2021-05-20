@@ -1,0 +1,1 @@
+xst -intstyle ise -ifn "C:/Users/hajna/Documents/RendszerArchitekturakHF/spi_top.xst" -ofn "C:/Users/hajna/Documents/RendszerArchitekturakHF/spi_top.syr" 

@@ -1,0 +1,2 @@
+verilog work "amba_apb_if.v"
+verilog work "spi_top.v"

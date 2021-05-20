@@ -4,121 +4,82 @@
 module amba_apb_if(
 
    //Órajel és reset.
-   input  wire                 clk,            //Rendszerórajel
-   input  wire                 rst,            //Aktív magas szinkron reset
+   input  wire                 clk,    //Rendszerórajel
+   input  wire                 rst,    //Aktív magas szinkron reset
 
    // cím és adat
-   output reg  PADDR,  // cím
-   output wire PWRITE, // írás-olvasás választó: 1 -> write, 0 -> read
-   output reg  PWDATA, // write data
-   input  reg  PRDATA, // read data
+   output reg           PADDR,  			// cím
+   output wire          PWRITE, 			// írás-olvasás választó: 1 -> write, 0 -> read
+   input wire   [31:0]  PWDATA, 			// write data
+   output reg   [31:0]  PRDATA, 			// read data
 
-   output wire PSEL, // periféria (SPI) kiválasztás
-   output wire PENABLE, // transzfer enable
-   input  wire PREADY, // transzfer folytatás
-   output reg  [3:0]    STRB,        //Bájt engedélyezõ jelek
+   output wire          PSEL, 			// periféria (SPI) kiválasztás
+   output wire          PENABLE, 		// transzfer enable
+   input  wire          PREADY, 			// transzfer folytatás
+   output reg   [3:0]   STRB,        	//Bájt engedélyezõ jelek
 
    // regiszter írási interface
-   input wire [31:0]  wr_data,          // írási adat
-   output reg  [3:0]  wr_strb,         //Bájt engedélyezõ jelek
+   output reg   [31:0]  wr_data,       // írási adat
+   output reg   [3:0]   wr_strb,       //Bájt engedélyezõ jelek
 
    // regiszter olvasási interface
-   input wire [31:0]  rd_data // olvasási adat
+   input wire   [31:0]  rd_data 			// olvasási adat
 );
 
 //******************************************************************************
-//* Írási állapotgép.                                                          *
+//* Írás-olvasás állapotgép.                                                   *
 //******************************************************************************
-localparam WR_IDLE   = 2'd0;
-localparam WR_SETUP  = 2'd1;
-localparam WR_ACCESS = 2'd2;
+localparam IDLE   = 2'd0;
+localparam SETUP  = 2'd1;
+localparam ACCESS = 2'd2;
 
-reg [1:0] wr_state;
+reg [1:0] state;
 
 always @(posedge clk)
 begin
    if (rst)
-      wr_state <= WR_IDLE;
+      state <= IDLE;
    else
-      case (wr_state)
+      case (state)
          //Várakozás a transfer-re
-         WR_IDLE: if (PSEL) // if transfer
+         IDLE: if (PSEL) // if transfer
                        begin
-                          wr_state <= WR_SETUP;
+                          state <= SETUP;
                        end
                        else
-                          wr_state <= WR_IDLE;
+                          state <= IDLE;
 
          //A SETUP állapot
-         WR_SETUP  : wr_state <= WR_ACCESS;
+         SETUP  : state <= ACCESS;
 
          //Az írási muvelet
-         WR_ACCESS : if (~PREADY) // nem ready
-                        wr_state <= WR_ACCESS;
-                     else 
-								if (PSEL) // ready és van transzfer -> küldés
+         ACCESS : if (~PREADY) 					// nem ready
+                        state <= ACCESS;
+                     else 							// ready
+								if (~PSEL) 				// nincs transzfer -> idle
 									begin
-										wr_state <= WR_SETUP;
-										wr_data  <= PWDATA;
-										wr_strb  <= STRB;
+									state <= IDLE;
+									if (~PWRITE) 		// írás esetén PRDATA nullázása
+										PRDATA <= 32'd0;
 									end
-								else           // ready és nincs transzfer -> idle
-									wr_state <= WR_IDLE;
-         
-         //Érvénytelen állapotok.
-         default     : wr_state <= WR_IDLE;
-      endcase
-end
-
-
-
-//******************************************************************************
-//* Olvasási állapotgép.                                                       *
-//******************************************************************************
-localparam RD_IDLE   = 2'd0;
-localparam RD_SETUP  = 2'd1;
-localparam RD_ACCESS = 2'd2;
-
-reg [1:0] rd_state;
-
-always @(posedge clk)
-begin
-   if (rst)
-      rd_state <= RD_IDLE;
-   else
-      case (rd_state)
-         //Várakozás a transfer-re
-         RD_IDLE: if (PSEL) // if transfer
-                       begin
-                          rd_state <= RD_SETUP;
-                       end
-                       else
-                          rd_state <= RD_IDLE;
-
-         //A SETUP állapot
-         RD_SETUP  : rd_state <= RD_ACCESS;
-
-         //Az írási muvelet
-         RD_ACCESS : if (~PREADY) // nem ready
-                        rd_state <= RD_ACCESS;
-                     else if (PSEL) // ready és van transzfer -> küldés
-                        begin
-									rd_state <= RD_SETUP;
-									rd_data  <= PRDATA;
-								end
-                     else           // ready és nincs transzfer -> idle
-                        begin
-									rd_state <= RD_IDLE;
-									rd_data <= 32'd0;
-								end
-         
-         //Érvénytelen állapotok.
-         default     : rd_state <= RD_IDLE;
+								else           		// van transzfer -> küldés/fogadás
+									begin
+										state <= SETUP;// visszalépés SETUP-hoz
+										if (PWRITE)    // olvasás
+											begin
+												data  <= PWDATA;
+												strb  <= STRB;
+											end
+										else				// írás
+											PRDATA <= data;											
+									end
+				//Érvénytelen állapotok.
+				default     : state <= IDLE;
       endcase
 end
 
 // PREADY jelzésének elõállítása.
-assign PREADY = (wr_state == ACCESS || rd_state == ACCESS);
+assign PREADY = (state == ACCESS);
 
 endmodule
 
