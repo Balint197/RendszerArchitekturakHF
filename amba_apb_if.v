@@ -4,11 +4,11 @@
 module amba_apb_if(
 
    //Órajel és reset.
-   input  wire                 clk,    //Rendszerórajel
-   input  wire                 rst,    //Aktív magas szinkron reset
+   input  wire                 apb_clk,    //Rendszerórajel
+   input  wire                 apb_rst,    //Aktív magas szinkron reset
 
    // cím és adat
-   output reg           PADDR,  			// cím
+   output reg           PADDR,  			// cím TODO
    output wire          PWRITE, 			// írás-olvasás választó: 1 -> write, 0 -> read
    input wire   [31:0]  PWDATA, 			// write data
    output reg   [31:0]  PRDATA, 			// read data
@@ -34,10 +34,12 @@ localparam SETUP  = 2'd1;
 localparam ACCESS = 2'd2;
 
 reg [1:0] state;
+reg data;
+reg strb;
 
-always @(posedge clk)
+always @(posedge apb_clk)
 begin
-   if (rst)
+   if (apb_rst)
       state <= IDLE;
    else
       case (state)
