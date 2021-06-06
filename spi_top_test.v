@@ -6,17 +6,21 @@ module spi_top_test;
 	// Inputs
 	reg apb_clk;
 	reg apb_rst;
-	reg [31:0] PWDATA;
-	reg PREADY;
+	reg [15:0] PADDR;
+	reg PWRITE;
+   reg [31:0] PWDATA;
+	reg PSEL;
+	reg PENABLE;
+	reg [3:0] STRB;
+
 	reg spi_miso;
+	reg [15:0] rw_addr;
+	//reg wr_en;
+	//reg rd_en;
+	reg PREADY;
 
 	// Outputs
-	wire PADDR;
-	wire PWRITE;
 	wire [31:0] PRDATA;
-	wire PSEL;
-	wire PENABLE;
-	wire [3:0] STRB;
 	wire spi_mosi;
 	wire spi_sck;
 	wire [3:0] spi_cs;
@@ -38,10 +42,7 @@ module spi_top_test;
 		.spi_mosi(spi_mosi), 
 		.spi_sck(spi_sck), 
 		.spi_cs(spi_cs), 
-		.irq(irq),
-		.rw_addr(rw_addr),
-		.wr_en(wr_en),
-		.rd_en(rd_en)
+		.irq(irq)
 	);
 
 
@@ -77,24 +78,25 @@ begin
     PSEL    = 1'b0;
     PENABLE = 1'b0;
     #1 data = PRDATA;
-    $display("%t: SPI write - address=0x%h, data=0x%h", $time, addr, data);
+    $display("%t: SPI read - address=0x%h, data=0x%h", $time, addr, data);
 end
 endtask
 
+integer data;
 
 	initial begin
 		// Initialize Inputs
 		assign spi_miso = spi_mosi;
-        apb_clk  = 0;
+      apb_clk  = 0;
 		apb_rst  = 0;
-        PADDR    = 0;
-        PENABLE  = 0;
-        PWRITE   = 0;
+      PADDR    = 0;
+      PENABLE  = 0;
+      PWRITE   = 0;
 		PWDATA   = 0;
 		PREADY   = 0;
-        PSEL     = 0;
-        PSTRB    = 0;
-        spi_miso = 0;
+      PSEL     = 0;
+      STRB     = 0;
+      spi_miso = 0;
 
 		// Wait 100 ns for global reset to finish
 		#100;
@@ -104,34 +106,34 @@ endtask
 		apb_rst = 1'b1;
 		#10;
 
-        // Regiszterek beállítása
-        apb_write32(16'd4, 32'd1);          // Órajelosztó
+        // Regiszterek be?ll?t?sa
+        apb_write32(16'd4, 32'd1);          // órajelosztó
         apb_write32(16'd20, 32'd1);         // Interrupt - enable
 
         // 1. test
-        apb_write32(16'd8, 32'b00);         // Üzemmód - CPOL = 0, CPHA = 0
+        apb_write32(16'd8, 32'b00);         // üzemmód - CPOL = 0, CPHA = 0
         apb_write32(16'd16, 32'b1001_0001); // Adatregiszter
         apb_write32(16'd24, 32'd1);         // Chip/Slave Select - 2
         apb_write32(16'd0, 32'd1);          // Start
         @(negedge irq);                     // interrupt-ra várakozás
-        apb_read32(16'd16, data);          // Visszaolvasás
+        apb_read32(16'd16, data);           // Visszaolvasás
 
         // 2. test
-        apb_write32(16'd8, 32'b01);         // Üzemmód - CPOL = 0, CPHA = 1
+        apb_write32(16'd8, 32'b01);         // üzemmód - CPOL = 0, CPHA = 1
         apb_write32(16'd16, 32'b1010_1001); // Adatregiszter
         apb_write32(16'd0, 32'd1);          // Start
         @(negedge irq);                     // interrupt-ra várakozás
-        apb_read32(16'd16, data);          // Visszaolvasás
+        apb_read32(16'd16, data);           // Visszaolvasás
 
         // 3. test
-        apb_write32(16'd8, 32'b10);         // Üzemmód - CPOL = 1, CPHA = 0
+        apb_write32(16'd8, 32'b10);         // üzemmód - CPOL = 1, CPHA = 0
         apb_write32(16'd16, 32'b1110_1011); // Adatregiszter
         apb_write32(16'd0, 32'd1);          // Start
         @(negedge irq);                     // interrupt-ra várakozás
-        apb_read32(16'd16, data);          // Visszaolvasás
+        apb_read32(16'd16, data);           // Visszaolvasás
 
         // 4. test
-        apb_write32(16'd8, 32'b11);         // Üzemmód - CPOL = 1, CPHA = 1
+        apb_write32(16'd8, 32'b11);         // üzemmód - CPOL = 1, CPHA = 1
         apb_write32(16'd16, 32'b1010_1111); // Adatregiszter
         apb_write32(16'd0, 32'd1);          // Start
         @(negedge irq);                     // interrupt-ra várakozás
@@ -140,7 +142,7 @@ endtask
 
 	end
 
-// Órajel generálása - 10 MHz
+// órajel generálása - 10 MHz
 always
 begin
    #50;

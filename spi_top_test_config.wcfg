@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/Users/hajna/Documents/RendszerArchitekturakHF/spi_top_test_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="spi_top_test" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="23" />
+   <wvobject fp_name="/spi_top_test/apb_rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">apb_rst</obj_property>
+      <obj_property name="ObjectShortName">apb_rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/uut/spi_i/rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/uut/spi_i/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/apb_clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">apb_clk</obj_property>
+      <obj_property name="ObjectShortName">apb_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/uut/spi_i/spi_sck" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">spi_sck</obj_property>
+      <obj_property name="ObjectShortName">spi_sck</obj_property>
+   </wvobject>
+   <wvobject fp_name="group41" type="group">
+      <obj_property name="label">spi orajel</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/spi_top_test/uut/spi_i/clkdiv" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">clkdiv[15:0]</obj_property>
+         <obj_property name="ObjectShortName">clkdiv[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/spi_top_test/uut/spi_i/sck_counter" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">sck_counter[3:0]</obj_property>
+         <obj_property name="ObjectShortName">sck_counter[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/spi_top_test/uut/spi_i/clk_counter" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">clk_counter[15:0]</obj_property>
+         <obj_property name="ObjectShortName">clk_counter[15:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/spi_top_test/uut/spi_i/clkdiv_reg_dout" type="array" db_ref_id="1">
+         <obj_property name="ElementShortName">clkdiv_reg_dout[31:0]</obj_property>
+         <obj_property name="ObjectShortName">clkdiv_reg_dout[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/spi_mosi" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">spi_mosi</obj_property>
+      <obj_property name="ObjectShortName">spi_mosi</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/spi_miso" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">spi_miso</obj_property>
+      <obj_property name="ObjectShortName">spi_miso</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/spi_cs" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">spi_cs[3:0]</obj_property>
+      <obj_property name="ObjectShortName">spi_cs[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/irq" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">irq</obj_property>
+      <obj_property name="ObjectShortName">irq</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/PADDR" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">PADDR[15:0]</obj_property>
+      <obj_property name="ObjectShortName">PADDR[15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/PWDATA" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">PWDATA[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PWDATA[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/PRDATA" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">PRDATA[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PRDATA[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/PWRITE" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">PWRITE</obj_property>
+      <obj_property name="ObjectShortName">PWRITE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/PSEL" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">PSEL</obj_property>
+      <obj_property name="ObjectShortName">PSEL</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/PENABLE" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">PENABLE</obj_property>
+      <obj_property name="ObjectShortName">PENABLE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/PREADY" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">PREADY</obj_property>
+      <obj_property name="ObjectShortName">PREADY</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/STRB" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">STRB[3:0]</obj_property>
+      <obj_property name="ObjectShortName">STRB[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/uut/spi_i/wr_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">wr_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wr_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/uut/spi_i/rd_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rd_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rd_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/uut/spi_i/wr_strb" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">wr_strb[3:0]</obj_property>
+      <obj_property name="ObjectShortName">wr_strb[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/uut/spi_i/clkdiv_reg_wr" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clkdiv_reg_wr</obj_property>
+      <obj_property name="ObjectShortName">clkdiv_reg_wr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spi_top_test/uut/spi_i/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">state[2:0]</obj_property>
+   </wvobject>
+</wave_config>

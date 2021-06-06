@@ -5,5 +5,23 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/hajna/Documents/RendszerArchitekturakHF/spi_top_test.v" Line 33: Target &lt;<arg fmt="%s" index="1">PADDR</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/hajna/Documents/RendszerArchitekturakHF/spi_top_test.v" Line 34: Target &lt;<arg fmt="%s" index="1">PWRITE</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/hajna/Documents/RendszerArchitekturakHF/spi_top_test.v" Line 37: Target &lt;<arg fmt="%s" index="1">PSEL</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/hajna/Documents/RendszerArchitekturakHF/spi_top_test.v" Line 38: Target &lt;<arg fmt="%s" index="1">PENABLE</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/hajna/Documents/RendszerArchitekturakHF/spi_top_test.v" Line 40: Target &lt;<arg fmt="%s" index="1">STRB</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/hajna/Documents/RendszerArchitekturakHF/spi_top.v" Line 48: Port <arg fmt="%s" index="1">rw_addr</arg> is not connected to this instance
+</msg>
+
 </messages>
 

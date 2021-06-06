@@ -1,0 +1,4 @@
+verilog isim_temp "spi.v"
+verilog isim_temp "amba_apb_if.v"
+verilog isim_temp "spi_top.v"
+verilog isim_temp "C:/Xilinx/14.7/ISE_DS/ISE//verilog/src/glbl.v"

@@ -1,0 +1,5 @@
+set -tmpdir "C:/Users/hajna/Documents/RendszerArchitekturakHF/xst/projnav.tmp"
+set -xsthdpdir "C:/Users/hajna/Documents/RendszerArchitekturakHF/xst"
+elaborate
+-ifn amba_apb_if.prj
+-ifmt mixed

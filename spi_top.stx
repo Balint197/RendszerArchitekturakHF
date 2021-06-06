@@ -1,0 +1,37 @@
+Release 14.7 - xst P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to C:/Users/hajna/Documents/RendszerArchitekturakHF/xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.21 secs
+ 
+--> Parameter xsthdpdir set to C:/Users/hajna/Documents/RendszerArchitekturakHF/xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.21 secs
+ 
+--> WARNING:Xst:3164 - Option "-debug" found multiple times in the command line. Only the first occurence is considered.
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling verilog file "spi.v" in library work
+Compiling verilog file "amba_apb_if.v" in library work
+Module <spi> compiled
+Compiling verilog file "spi_top.v" in library work
+Module <amba_apb_if> compiled
+ERROR:HDLCompilers:28 - "spi_top.v" line 78 'rw_addr' has not been declared
+ERROR:HDLCompilers:28 - "spi_top.v" line 81 'wr_en' has not been declared
+ERROR:HDLCompilers:28 - "spi_top.v" line 86 'rd_en' has not been declared
+Module <spi_top> compiled
+Analysis of file <"spi_top.prj"> failed.
+--> 
+
+Total memory usage is 4467960 kilobytes
+
+Number of errors   :    3 (   0 filtered)
+Number of warnings :    1 (   0 filtered)
+Number of infos    :    0 (   0 filtered)
+

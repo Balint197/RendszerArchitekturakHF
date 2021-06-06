@@ -29,7 +29,6 @@ module spi(
 
    //Megszakításkérõ kimenet.
    output reg                  irq
-
 );
 
 //******************************************************************************
@@ -48,14 +47,14 @@ begin
         spi_en <= wr_data[0];
 end
 
-wire [31:0]ctrl_reg_dout = {31'd0, spi_en};
+wire [31:0] ctrl_reg_dout = {31'd0, spi_en};
 
 //******************************************************************************
 //* Órajel osztás regiszter.            BÁZIS+0x04, 32 bites, írható/olvasható *
 //* baud rate = f_sysclk / (16 * (CLKDIV + 1))                                 *
 //******************************************************************************
 wire clkdiv_reg_wr = wr_en & (rw_addr == 16'd4) & (wr_strb == 4'b1111);
-wire clkdiv_reg_rd = wr_en & (rw_addr == 16'd4);
+wire clkdiv_reg_rd = rd_en & (rw_addr == 16'd4);
 
 //Órajel osztás (0 - 15. bitek).
 reg [15:0] clkdiv;
@@ -132,7 +131,6 @@ wire [31:0] data_reg_dout = {24'd0, data};
 wire ie_reg_wr = wr_en & (rw_addr == 16'd20) & (wr_strb == 4'b1111);
 wire ie_reg_rd = rd_en & (rw_addr == 16'd20);
 
-//FIFO státusz megszakítások engedélyezése (0 - 3. bitek).
 reg ie_reg;
 
 always @(posedge clk)
@@ -174,7 +172,7 @@ end
 */
 genvar i;
 generate
-   for (i = 0; i < 3; i = i + 1)
+   for (i = 0; i < 4; i = i + 1)
    begin: reg_loop
 		always @(posedge clk) 
 		begin
@@ -250,7 +248,7 @@ begin
         rxbuf <= 8'd0;
         txbuf <= 8'd0;
         sck_counter <= 4'd0;
-        txc <= 1'b0;            // TODO kell?
+        txc <= 1'b0;
     end
     else
     case (state)
@@ -306,7 +304,7 @@ begin
             spi_mosi <= spi_mosi_r;
 
             txc <= 1'b0;
-            if (sck_counter == 4'd0)
+            if (sck_counter[3:0] == 4'd0)
                 state <= UNLOAD;
             else
                 state <= TRANSACT;

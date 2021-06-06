@@ -1,0 +1,5 @@
+verilog work "spi.v"
+verilog work "amba_apb_if.v"
+verilog work "spi_top.v"
+verilog work "spi_top_test.v"
+verilog work "C:/Xilinx/14.7/ISE_DS/ISE//verilog/src/glbl.v"

@@ -10,9 +10,9 @@ module spi_top(   //Órajel és reset.
    input  wire          apb_rst,                //Aktív magas szinkron reset
 
    // cím és adat
-   output wire          PADDR,  			// cím TODO
+   output wire   [15:0] PADDR,  			// cím 
    output wire          PWRITE, 			// írás-olvasás választó: 1 -> write, 0 -> read
-   input  wire  [31:0]  PWDATA, 			// write data
+   input  wire   [31:0] PWDATA, 			// write data
    output wire   [31:0] PRDATA, 			// read data
 
    output wire          PSEL, 			    // periféria (SPI) kiválasztás
@@ -40,14 +40,15 @@ wire rst = ~apb_rst;
 //******************************************************************************
 //* AMBA APB busz interfész.                                                   *
 //******************************************************************************
-wire [31:0]  wr_data;         // írási adat
-wire [3:0]   wr_strb;         //Bájt engedélyezõ jelek
-wire [31:0]  rd_data; 			// olvasási adat
+wire [31:0]  wr_data;      // írási adat
+wire [3:0]   wr_strb;      //Bájt engedélyezõ jelek
+wire [31:0]  rd_data; 		// olvasási adat
+
 
 amba_apb_if amba_apb_if_i (
    //Órajel és reset.
-   .clk(clk),    //Rendszerórajel
-   .rst(rst),    //Aktív magas szinkron reset
+   .apb_clk(apb_clk),    	//Rendszerórajel
+   .apb_rst(apb_rst),    	//Aktív magas szinkron reset
 
    // cím és adat
    .PADDR(PADDR),  			// cím
@@ -55,42 +56,42 @@ amba_apb_if amba_apb_if_i (
    .PWDATA(PWDATA), 			// write data
    .PRDATA(PRDATA), 			// read data
 
-   .PSEL(PSEL), 			// periféria (SPI) kiválasztás
+   .PSEL(PSEL), 				// periféria (SPI) kiválasztás
    .PENABLE(PENABLE), 		// transzfer enable
    .PREADY(PREADY), 			// transzfer folytatás
-   .STRB(STRB),        	//Bájt engedélyezõ jelek
+   .STRB(STRB),        		// bájt engedélyezõ jelek
 
    // regiszter írási interface
-   .wr_data(wr_data),       // írási adat
-   .wr_strb(wr_strb),       //Bájt engedélyezõ jelek
+   .wr_data(wr_data),      // írási adat
+   .wr_strb(wr_strb),      // bájt engedélyezõ jelek
 
    // regiszter olvasási interface
-   .rd_data(rd_data) 			// olvasási adat
+   .rd_data(rd_data) 		// olvasási adat
 );
 
 //******************************************************************************
 //* Az SPI funkció megvalósítása.                                              *
 //******************************************************************************
 spi spi_i(
-   .clk(clk),            //Rendszerórajel
-   .rst(rst),            //Aktív magas szinkron reset
+   .clk(clk),            	//Rendszerórajel
+   .rst(rst),            	//Aktív magas szinkron reset
    
-   .rw_addr(rw_addr),       //Írás-olvasás cím
+   .rw_addr(PADDR),      //Írás-olvasás cím
 
    //Regiszter írási interfész.
-   .wr_en(wr_en),          //Írás engedélyezõ jel
-   .wr_data(wr_data),        //Írási adat
-   .wr_strb(wr_strb),        //Bájt engedélyezõ jelek
+   .wr_en(PENABLE),          //Írás engedélyezõ jel
+   .wr_data(PWDATA),      //Írási adat
+   .wr_strb(STRB),      //Bájt engedélyezõ jelek
     
    //Regiszter olvasási interfész.
-   .rd_en(rd_en),          //Olvasás engedélyezõ jel
-   .rd_data(rd_data),        //Olvasási adat
+   .rd_en(PENABLE),          //Olvasás engedélyezõ jel
+   .rd_data(PRDATA),      //Olvasási adat
    
    //SPI adatvonalak.
-   .spi_miso(spi_miso),       //Soros bemenet, rxd
-   .spi_mosi(spi_mosi),       //Soros kimenet, txd
-   .spi_sck(spi_sck),        //SPI órajel
-   .spi_cs(spi_cs),         //chip/slave select
+   .spi_miso(spi_miso),    //Soros bemenet, rxd
+   .spi_mosi(spi_mosi),    //Soros kimenet, txd
+   .spi_sck(spi_sck),      //SPI órajel
+   .spi_cs(spi_cs),        //chip/slave select
 
    //Megszakításkérõ kimenet.
    .irq(irq)

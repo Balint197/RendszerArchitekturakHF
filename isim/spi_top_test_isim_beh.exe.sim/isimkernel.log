@@ -1,0 +1,29 @@
+Command line:
+   spi_top_test_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  54031
+
+Sun Jun 06 17:07:27 2021
+
+
+ Elaboration Time: 0.0625 sec
+
+ Current Memory Usage: 5149.72 Meg
+
+ Total Signals          : 79
+ Total Nets             : 442
+ Total Signal Drivers   : 55
+ Total Blocks           : 7
+ Total Primitive Blocks : 5
+ Total Processes        : 81
+ Total Traceable Variables  : 70
+ Total Scalar Nets and Variables : 948
+Total Line Count : 332
+
+ Total Simulation Time: 0.09375 sec
+
+ Current Memory Usage: 4677.86 Meg
+
+Sun Jun 06 17:22:17 2021
+
